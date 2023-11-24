@@ -1,53 +1,17 @@
-# default
+# GcPoly
+Projeto criado com Node versão 20.8.0 e NPM versão 10.1.0 (https://nodejs.org/en/download/). Recomenda-se a instalação pelo NVM (Node Version Manager): https://github.com/coreybutler/nvm-windows
 
-## Project setup
+## Passo a passo
 
 ```
-# yarn
-yarn
+# Baixar repositório
+git clone https://github.com/Marlonfpereira/CgPoly
 
-# npm
+# Instalar pacotes do node
+cd CgPoly
 npm install
 
-# pnpm
-pnpm install
-
-# bun
-bun install
-```
-
-### Compiles and hot-reloads for development
-
-```
-# yarn
-yarn dev
-
-# npm
+# Rodar projeto
 npm run dev
 
-# pnpm
-pnpm dev
-
-# bun
-bun run dev
 ```
-
-### Compiles and minifies for production
-
-```
-# yarn
-yarn build
-
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# bun
-bun run build
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://vitejs.dev/config/).
