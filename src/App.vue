@@ -134,7 +134,7 @@ export default {
           ctx.lineTo(newPoly.pontos[1].x, newPoly.pontos[1].y)
           ctx.lineTo(newPoly.pontos[2].x, newPoly.pontos[2].y)
           ctx.lineTo(newPoly.pontos[0].x, newPoly.pontos[0].y)
-          ctx.lineWidth = 2
+          ctx.lineWidth = 3
           ctx.strokeStyle = newPoly.corAresta
           ctx.stroke()
 
@@ -165,7 +165,7 @@ export default {
         ctx.lineTo(poly.pontos[1].x, poly.pontos[1].y)
         ctx.lineTo(poly.pontos[2].x, poly.pontos[2].y)
         ctx.lineTo(poly.pontos[0].x, poly.pontos[0].y)
-        ctx.lineWidth = 2
+        ctx.lineWidth = 3
         ctx.strokeStyle = poly.corAresta
         ctx.stroke()
       });
@@ -179,7 +179,7 @@ export default {
       this.canvas.strokeStyle = cor
 
       this.canvas.fillStyle = cor
-      this.canvas.fillRect(x, y, 2, 2)
+      this.canvas.fillRect(x, y, 1, 1)
     },
     fillPoly(poly) {
       poly.pontos.sort((a, b) => a.y - b.y)
@@ -203,6 +203,9 @@ export default {
           intervalo[1] = aux
           swaped = true
         }
+
+        intervalo[0] = Math.round(intervalo[0])
+        intervalo[1] = Math.round(intervalo[1])
 
         let cor0 = { r: v0Cor.r + arestas[0].taxaR * i, g: v0Cor.g + arestas[0].taxaG * i, b: v0Cor.b + arestas[0].taxaB * i }
         let cor2 = { r: v0Cor.r + arestas[2].taxaR * i, g: v0Cor.g + arestas[2].taxaG * i, b: v0Cor.b + arestas[2].taxaB * i }
@@ -230,6 +233,9 @@ export default {
           intervalo[1] = aux
           swaped = true
         }
+
+        intervalo[0] = Math.round(intervalo[0])
+        intervalo[1] = Math.round(intervalo[1])
 
         let cor1 = { r: v1Cor.r + arestas[1].taxaR * i, g: v1Cor.g + arestas[1].taxaG * i, b: v1Cor.b + arestas[1].taxaB * i }
         let cor2 = { r: lastColor.r + arestas[2].taxaR * i, g: lastColor.g + arestas[2].taxaG * i, b: lastColor.b + arestas[2].taxaB * i }
@@ -276,6 +282,8 @@ export default {
 
 .quadro {
   border: solid;
+  height: 760px;
+  width: 1180px;
 }
 
 .controle {
