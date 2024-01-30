@@ -1,3 +1,4 @@
+<!-- Trabalho 1 CG feito por Marlon Fabichacki Pereira -->
 <template>
   <v-app>
     <v-main class="main">
@@ -74,6 +75,7 @@
 </template>
 
 <script>
+// Trabalho 1 CG feito por Marlon Fabichacki Pereira
 import { Poly } from './models/Poly';
 import { Ponto } from './models/Ponto';
 
