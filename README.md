@@ -1,4 +1,4 @@
-# GcPoly
+# CgPoly
 Projeto criado com Node versão 20.8.0 e NPM versão 10.1.0 (https://nodejs.org/en/download/). Recomenda-se a instalação pelo NVM (Node Version Manager): https://github.com/coreybutler/nvm-windows
 
 ## Execução local

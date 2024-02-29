@@ -195,10 +195,13 @@ export default {
         { ini: v1, fim: v2, taxa: ((v2.x - v1.x) / (v2.y - v1.y)), taxaR: ((v2Cor.r - v1Cor.r) / (v2.y - v1.y)), taxaG: ((v2Cor.g - v1Cor.g) / (v2.y - v1.y)), taxaB: ((v2Cor.b - v1Cor.b) / (v2.y - v1.y)) },
         { ini: v2, fim: v0, taxa: ((v0.x - v2.x) / (v0.y - v2.y)), taxaR: ((v0Cor.r - v2Cor.r) / (v0.y - v2.y)), taxaG: ((v0Cor.g - v2Cor.g) / (v0.y - v2.y)), taxaB: ((v0Cor.b - v2Cor.b) / (v0.y - v2.y)) }]
 
-      let lastX = 0, lastColor, swaped = false
-      for (let y = v0.y, i = 0; y < v1.y; y++, i++) {
-        let intervalo = [arestas[0].ini.x + arestas[0].taxa * i, arestas[0].ini.x + arestas[2].taxa * i]
-        lastX = intervalo[1]
+      let lastIniX = arestas[0].ini.x, lastFimX = arestas[0].ini.x, swaped = false
+      let lastIniColor = { r: v0Cor.r, g: v0Cor.g, b: v0Cor.b }, lastFimColor = { r: v0Cor.r, g: v0Cor.g, b: v0Cor.b }
+      for (let y = v0.y; y < v1.y; y++) {
+        lastIniX += arestas[0].taxa
+        lastFimX += arestas[2].taxa
+        let intervalo = [lastIniX, lastFimX]
+
         if (intervalo[1] < intervalo[0]) {
           const aux = intervalo[0]
           intervalo[0] = intervalo[1]
@@ -209,26 +212,29 @@ export default {
         intervalo[0] = Math.round(intervalo[0])
         intervalo[1] = Math.round(intervalo[1])
 
-        let cor0 = { r: v0Cor.r + arestas[0].taxaR * i, g: v0Cor.g + arestas[0].taxaG * i, b: v0Cor.b + arestas[0].taxaB * i }
-        let cor2 = { r: v0Cor.r + arestas[2].taxaR * i, g: v0Cor.g + arestas[2].taxaG * i, b: v0Cor.b + arestas[2].taxaB * i }
-        lastColor = cor2
+        lastIniColor = { r: lastIniColor.r + arestas[0].taxaR, g: lastIniColor.g + arestas[0].taxaG, b: lastIniColor.b + arestas[0].taxaB }
+        lastFimColor = { r: lastFimColor.r + arestas[2].taxaR, g: lastFimColor.g + arestas[2].taxaG, b: lastFimColor.b + arestas[2].taxaB }
+
         if (swaped) {
-          const aux = cor0
-          cor0 = cor2
-          cor2 = aux
+          const aux = lastIniColor
+          lastIniColor = lastFimColor
+          lastFimColor = aux
         }
 
         const varX = intervalo[1] - intervalo[0]
-        const delta = { r: (cor2.r - cor0.r) / varX, g: (cor2.g - cor0.g) / varX, b: (cor2.b - cor0.b) / varX }
+        const delta = { r: (lastFimColor.r - lastIniColor.r) / varX, g: (lastFimColor.g - lastIniColor.g) / varX, b: (lastFimColor.b - lastIniColor.b) / varX }
 
         for (let j = intervalo[0], k = 0; j < intervalo[1]; j++, k++) {
-          this.drawPixel(j, y, `rgb(${cor0.r + delta.r * k}, ${cor0.g + delta.g * k}, ${cor0.b + delta.b * k})`)
+          this.drawPixel(j, y, `rgb(${lastIniColor.r + delta.r * k}, ${lastIniColor.g + delta.g * k}, ${lastIniColor.b + delta.b * k})`)
         }
       }
 
       swaped = false
-      for (let y = v1.y, i = 0; y < v2.y; y++, i++) {
-        let intervalo = [arestas[1].ini.x + arestas[1].taxa * i, lastX + arestas[2].taxa * i]
+      lastIniColor = { r: v1Cor.r + arestas[1].taxaR, g: v1Cor.g + arestas[1].taxaG, b: v1Cor.b + arestas[1].taxaB }
+      for (let y = v1.y; y < v2.y; y++) {
+        lastIniX += arestas[1].taxa
+        lastFimX += arestas[2].taxa
+        let intervalo = [lastIniX, lastFimX]
         if (intervalo[1] < intervalo[0]) {
           const aux = intervalo[0]
           intervalo[0] = intervalo[1]
@@ -239,19 +245,19 @@ export default {
         intervalo[0] = Math.round(intervalo[0])
         intervalo[1] = Math.round(intervalo[1])
 
-        let cor1 = { r: v1Cor.r + arestas[1].taxaR * i, g: v1Cor.g + arestas[1].taxaG * i, b: v1Cor.b + arestas[1].taxaB * i }
-        let cor2 = { r: lastColor.r + arestas[2].taxaR * i, g: lastColor.g + arestas[2].taxaG * i, b: lastColor.b + arestas[2].taxaB * i }
+        lastIniColor = { r: lastIniColor.r + arestas[1].taxaR, g: lastIniColor.g + arestas[1].taxaG, b: lastIniColor.b + arestas[1].taxaB }
+        lastFimColor = { r: lastFimColor.r + arestas[2].taxaR, g: lastFimColor.g + arestas[2].taxaG, b: lastFimColor.b + arestas[2].taxaB }
         if (swaped) {
-          const aux = cor1
-          cor1 = cor2
-          cor2 = aux
+          const aux = lastIniColor
+          lastIniColor = lastFimColor
+          lastFimColor = aux
         }
 
         const varX = intervalo[1] - intervalo[0]
-        const delta = { r: (cor2.r - cor1.r) / varX, g: (cor2.g - cor1.g) / varX, b: (cor2.b - cor1.b) / varX }
+        const delta = { r: (lastFimColor.r - lastIniColor.r) / varX, g: (lastFimColor.g - lastIniColor.g) / varX, b: (lastFimColor.b - lastIniColor.b) / varX }
 
         for (let j = intervalo[0], k = 0; j < intervalo[1]; j++, k++) {
-          this.drawPixel(j, y, `rgb(${cor1.r + delta.r * k}, ${cor1.g + delta.g * k}, ${cor1.b + delta.b * k})`)
+          this.drawPixel(j, y, `rgb(${lastIniColor.r + delta.r * k}, ${lastIniColor.g + delta.g * k}, ${lastIniColor.b + delta.b * k})`)
         }
       }
 
